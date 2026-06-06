@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  resumes   Resume[]
+}
+
+model Resume {
+  id             String     @id @default(cuid())
+  userId         String
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title          String
+  type           ResumeType @default(CREATED)
+  personalInfo   Json
+  summary        String?
+  experience     Json
+  education      Json
+  skills         String[]
+  projects       Json
+  certifications Json
+  atsScore       Int?
+  jobDescription String?
+  templateId     String     @default("modern")
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+enum ResumeType {
+  CREATED
+  TAILORED
+  UPLOADED
+}
