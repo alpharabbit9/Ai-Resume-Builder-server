@@ -6,6 +6,7 @@ import corsOptions from './config/corsOptions'
 import globalErrorHandler from './middleware/error.middleware'
 import AppError from './utils/AppError'
 import authRoutes from './modules/auth/auth.routes'
+import resumeRoutes from './modules/resume/resume.routes'
 
 const app = express()
 
@@ -20,7 +21,7 @@ app.get('/health', (_req, res) => {
 })
 
 app.use('/api/v1/auth', authRoutes)
-// app.use('/api/v1/resume', resumeRoutes)
+app.use('/api/v1/resume', resumeRoutes)
 // app.use('/api/v1/ai', aiRoutes)
 // app.use('/api/v1/upload', uploadRoutes)
 
