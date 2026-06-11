@@ -1,11 +1,18 @@
 import { Request, Response } from 'express'
 import catchAsync from '../../utils/catchAsync'
 import sendResponse from '../../utils/sendResponse'
+import { uploadToCloudinary } from '../../utils/uploadImage'
 import * as authService from './auth.service'
 import { RegisterDto, LoginDto, RefreshDto } from './auth.validation'
 
 export const register = catchAsync(async (req: Request, res: Response) => {
-  const result = await authService.register(req.body as RegisterDto)
+  let profilePictureUrl: string | undefined
+
+  if (req.file) {
+    profilePictureUrl = await uploadToCloudinary(req.file.buffer, 'resume-builder/avatars')
+  }
+
+  const result = await authService.register(req.body as RegisterDto, profilePictureUrl)
 
   sendResponse(res, 201, {
     success: true,

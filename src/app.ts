@@ -7,6 +7,9 @@ import globalErrorHandler from './middleware/error.middleware'
 import AppError from './utils/AppError'
 import authRoutes from './modules/auth/auth.routes'
 import resumeRoutes from './modules/resume/resume.routes'
+import aiRoutes from './modules/ai/ai.routes'
+import uploadRoutes from './modules/upload/upload.routes'
+import userRoutes from './modules/user/user.routes'
 
 const app = express()
 
@@ -22,8 +25,9 @@ app.get('/health', (_req, res) => {
 
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/resume', resumeRoutes)
-// app.use('/api/v1/ai', aiRoutes)
-// app.use('/api/v1/upload', uploadRoutes)
+app.use('/api/v1/ai', aiRoutes)
+app.use('/api/v1/upload', uploadRoutes)
+app.use('/api/v1/user', userRoutes)
 
 app.all('/{*path}', (req, _res, next) => {
   next(new AppError(`Route ${req.originalUrl} not found`, 404))

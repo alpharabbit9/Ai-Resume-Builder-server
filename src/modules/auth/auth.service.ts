@@ -5,7 +5,7 @@ import AppError from '../../utils/AppError'
 import { generateAccessToken, generateRefreshToken } from '../../utils/generateToken'
 import { RegisterDto, LoginDto } from './auth.validation'
 
-export const register = async (data: RegisterDto) => {
+export const register = async (data: RegisterDto, profilePictureUrl?: string) => {
   const existing = await prisma.user.findUnique({ where: { email: data.email } })
   if (existing) throw new AppError('Email already in use', 409)
 
@@ -16,8 +16,9 @@ export const register = async (data: RegisterDto) => {
       name: data.name,
       email: data.email,
       password: hashedPassword,
+      ...(profilePictureUrl && { profilePicture: profilePictureUrl }),
     },
-    select: { id: true, name: true, email: true, createdAt: true },
+    select: { id: true, name: true, email: true, profilePicture: true, createdAt: true },
   })
 
   const accessToken = generateAccessToken(user.id)

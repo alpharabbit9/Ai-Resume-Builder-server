@@ -12,6 +12,9 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string({ error: 'JWT_REFRESH_SECRET is required' }),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   GROQ_API_KEY: z.string({ error: 'GROQ_API_KEY is required' }),
+  CLOUDINARY_CLOUD_NAME: z.string({ error: 'CLOUDINARY_CLOUD_NAME is required' }),
+  CLOUDINARY_API_KEY: z.string({ error: 'CLOUDINARY_API_KEY is required' }),
+  CLOUDINARY_API_SECRET: z.string({ error: 'CLOUDINARY_API_SECRET is required' }),
   CLIENT_URL: z.string().default('http://localhost:3000'),
 })
 
